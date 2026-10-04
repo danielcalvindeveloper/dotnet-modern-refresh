@@ -1,0 +1,6 @@
+flowchart TD
+    Base["appsettings.json"] --> Development["appsettings.Development.json"]
+    Development --> Configuration["Configuration"]
+    Configuration --> Options["IOptions&lt;SaludoOptions&gt;"]
+    Options --> Service["HolaService"]
+    Service --> Controller["Controller"]

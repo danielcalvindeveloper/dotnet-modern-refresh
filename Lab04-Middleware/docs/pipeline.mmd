@@ -1,0 +1,6 @@
+flowchart TD
+    Request --> Before["Middleware: antes"]
+    Before --> Controller["Controller"]
+    Controller --> Service["Service"]
+    Service --> After["Middleware: después"]
+    After --> Response
