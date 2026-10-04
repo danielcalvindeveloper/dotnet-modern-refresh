@@ -1,0 +1,6 @@
+flowchart LR
+    HTTP --> Controller
+    Controller --> Service
+    Service --> Repository
+    Repository --> Dapper
+    Dapper --> SQLite

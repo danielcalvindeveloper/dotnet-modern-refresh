@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant HTTP
+    participant Controller
+    participant Service
+    participant IO
+
+    HTTP->>Controller: GET /api/hola
+    Controller->>Service: await ObtenerSaludoAsync()
+    Service->>IO: await operación I/O
+    IO-->>Service: resultado
+    Service-->>Controller: saludo
+    Controller-->>HTTP: 200 JSON

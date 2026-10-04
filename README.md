@@ -21,6 +21,6 @@ Probar `http://localhost:5080/api/hola`. Ver las instrucciones y archivos clave 
 
 ## Recorrido
 
-El [roadmap](docs/roadmap.md) define los incrementos previstos. Están implementados [Lab00-HelloApi](Lab00-HelloApi/README.md), [Lab01-Controllers](Lab01-Controllers/README.md), [Lab02-DependencyInjection](Lab02-DependencyInjection/README.md), [Lab03-Configuration](Lab03-Configuration/README.md) y [Lab04-Middleware](Lab04-Middleware/README.md); Lab05–Lab09 están pendientes.
+El [roadmap](docs/roadmap.md) define los incrementos previstos. Están implementados [Lab00-HelloApi](Lab00-HelloApi/README.md), [Lab01-Controllers](Lab01-Controllers/README.md), [Lab02-DependencyInjection](Lab02-DependencyInjection/README.md), [Lab03-Configuration](Lab03-Configuration/README.md), [Lab04-Middleware](Lab04-Middleware/README.md), [Lab05-AsyncAwait](Lab05-AsyncAwait/README.md) y [Lab06a-Dapper](Lab06a-Dapper/README.md), que inicia el bloque **Lab06-DataAccess**. Lab06b y los siguientes laboratorios están pendientes.
 
 Cada paso se completa leyendo y ejecutando el ejemplo, haciendo una pequeña variación y comprobando su comportamiento antes de avanzar.

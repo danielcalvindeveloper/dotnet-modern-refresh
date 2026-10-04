@@ -21,6 +21,10 @@ artifacts/
 *.snupkg
 *.log
 
+# Bases locales de los laboratorios de acceso a datos
+**/Data/*.db
+**/Data/*.db-*
+
 # Configuración local y credenciales
 .env
 .env.*
