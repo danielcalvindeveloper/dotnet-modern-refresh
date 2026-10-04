@@ -11,10 +11,11 @@ Laboratorios pequeños, independientes y ejecutables. Se presupone experiencia c
 | **Lab04-Middleware** | Pipeline HTTP, middleware inline, `HttpContext`, `next`, Use/Run/Map | `GET /api/hola` con logs antes y después del controller | Servlet Filter, `FilterChain` e interceptors |
 | **Lab05-AsyncAwait** | `Task`, `Task<T>`, `async`/`await` y propagación entre capas | `GET /api/hola` con espera I/O simulada y controller asíncrono | `CompletableFuture` y modelo tradicional thread-per-request |
 | **Lab06-DataAccess / Lab06a-Dapper** | Repository, conexión SQLite, SQL parametrizado, mapping y métodos async de Dapper | `GET /api/clientes` y `GET /api/clientes/{id}` con base local inicializada | JdbcTemplate/JDBC |
+| **Lab06-DataAccess / Lab06b-EFCore** | DbContext directo en el service, DbSet, convenciones, LINQ, tracking y EnsureCreated | Los mismos endpoints y datos con EF Core y SQLite | Modelo de persistencia y tracking comparable a JPA/Hibernate |
 | Lab07-ErrorHandling | Middleware, `IExceptionHandler` y `ProblemDetails` | Errores HTTP uniformes | `@ControllerAdvice` y exception handlers |
 | Lab08-Testing | xUnit y `WebApplicationFactory` | Tests de integración HTTP | `@SpringBootTest` y herramientas de prueba HTTP |
 | Lab09-RealApi | Integración de los conceptos anteriores | API pequeña de tareas con persistencia, validación y tests | Una aplicación Spring Boot de alcance equivalente |
 
-**Estado:** Lab00–Lab05 y Lab06a están implementados. Lab06a inicia el bloque Lab06-DataAccess; Lab06b queda pendiente y se definirá al abordarlo. Los detalles de los próximos pasos se decidirán al abordar cada laboratorio.
+**Estado:** Lab00–Lab05, Lab06a y Lab06b están implementados. El bloque Lab06-DataAccess permite comparar Dapper y EF Core sobre SQLite. Los detalles de los próximos pasos se decidirán al abordar cada laboratorio.
 
 Para cada incremento: leer el código → ejecutar → cambiar una cosa → verificar. Evitar capas o dependencias que no aporten al concepto del paso.
