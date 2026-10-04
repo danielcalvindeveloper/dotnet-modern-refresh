@@ -1,0 +1,35 @@
+# Compilación y pruebas .NET
+**/[Bb]in/
+**/[Oo]bj/
+**/TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+
+# Estado local de IDEs
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Artefactos y logs
+artifacts/
+*.nupkg
+*.snupkg
+*.log
+
+# Configuración local y credenciales
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+**/appsettings.Local.json
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
