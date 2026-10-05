@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant A as Request A
+    participant B as Request B
+    participant DB as Database
+
+    A->>DB: SELECT Turno Version=1
+    B->>DB: SELECT Turno Version=1
+
+    A->>DB: UPDATE WHERE Version=1
+    DB-->>A: 1 row
+
+    B->>DB: UPDATE WHERE Version=1
+    DB-->>B: 0 rows
+
+    B-->>B: DbUpdateConcurrencyException
