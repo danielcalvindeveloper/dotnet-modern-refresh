@@ -1,0 +1,9 @@
+flowchart TD
+    Test[Integration Test] --> Cliente[HttpClient]
+    Cliente --> App[ASP.NET Core / TestServer]
+    App --> Middleware
+    Middleware --> Routing
+    Routing --> Controller
+    Controller --> Service
+    Service --> Respuesta[HTTP Response]
+    Componentes["También participan: DI, Model Binding, Validation y JSON"] -.-> App
