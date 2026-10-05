@@ -6,12 +6,28 @@ Estudiar **dónde y cuándo se ejecuta una consulta**, manteniendo Controller �
 
 Desde la raíz, con .NET 10:
 
+Seguir primero la sección **Preparación de la base de datos** de abajo. Después ejecutar `dotnet run` desde `Lab06d-EFCore-Linq`.
+
+Escucha en `http://localhost:5091`. Antes de arrancar se aplica explícitamente la migration incluida y se cargan dos clientes y cinco reservas con el script SQL. La API no prepara la base al arrancar. La base propia queda en `Data/clientes.db`, excluida de Git; no modifica la de Lab06c. Se conserva migrations, sin `EnsureCreated`. Para regenerar migrations se incluye la herramienta local: `dotnet tool restore` y luego los comandos aprendidos en Lab06c.
+
+## Preparación de la base de datos
+
+La base local `Data/clientes.db` y sus auxiliares no se versionan. Se aplica la migration incluida. Necesita dos clientes y cinco reservas para que los filtros y sus resultados esperados puedan compararse.
+
+[Cómo recrear la base de datos y aplicar las migrations](../RECREAR_BASE_DE_DATOS.md). Los [datos iniciales](scripts/datos-iniciales.sql) se ejecutan explícitamente; no se cargan desde `Program.cs`. La herramienta común usa el mismo proveedor SQLite y evita instalar sqlite3 CLI.
+
 ```powershell
+# Desde una terminal en la raíz del repositorio:
 cd Lab06d-EFCore-Linq
+dotnet restore
+dotnet tool restore
+dotnet ef database update
+dotnet restore ../tools/SqliteScripts/SqliteScripts.csproj
+dotnet run --project ../tools/SqliteScripts -- Data/clientes.db scripts/datos-iniciales.sql
 dotnet run
 ```
 
-Escucha en `http://localhost:5091`. El arranque aplica la migration inicial incluida mediante `MigrateAsync` y agrega dos clientes y cinco reservas si faltan los datos. La base propia queda en `Data/clientes.db`, excluida de Git; no modifica la de Lab06c. Se conserva migrations, sin `EnsureCreated`. Para regenerar migrations se incluye la herramienta local: `dotnet tool restore` y luego los comandos aprendidos en Lab06c.
+Los comandos suponen un clon limpio. Repetir el script agrega Ids faltantes y conserva datos existentes; no resetea los experimentos. Para volver exactamente al inicio, seguir el procedimiento de respaldo de la guía común con la API detenida.
 
 ## IQueryable, composición y ejecución diferida
 

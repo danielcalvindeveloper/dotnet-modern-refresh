@@ -1,5 +1,4 @@
 using Lab06b.Data;
-using Lab06b.Models;
 using Lab06b.Services;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -34,22 +33,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
-
-// Un scope propio para inicializar el contexto antes de aceptar peticiones.
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await db.Database.EnsureCreatedAsync();
-
-    if (!await db.Clientes.AnyAsync())
-    {
-        db.Clientes.AddRange(
-            new Cliente { Id = 1, Nombre = "Ana García", Email = "ana@example.com" },
-            new Cliente { Id = 2, Nombre = "Bruno López", Email = "bruno@example.com" },
-            new Cliente { Id = 3, Nombre = "Carla Pérez", Email = "carla@example.com" });
-
-        await db.SaveChangesAsync();
-    }
-} // El scope libera el DbContext de inicialización.
 
 app.Run();

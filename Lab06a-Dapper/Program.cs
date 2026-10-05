@@ -1,4 +1,3 @@
-using Dapper;
 using Lab06a.Repositories;
 using Lab06a.Services;
 using Microsoft.Data.Sqlite;
@@ -32,23 +31,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
-
-// Inicialización local, antes de aceptar peticiones. Es segura al repetir el arranque.
-using (var connection = new SqliteConnection(connectionString))
-{
-    await connection.OpenAsync();
-    await connection.ExecuteAsync("""
-        CREATE TABLE IF NOT EXISTS Clientes (
-            Id INTEGER PRIMARY KEY,
-            Nombre TEXT NOT NULL,
-            Email TEXT NOT NULL
-        );
-
-        INSERT OR IGNORE INTO Clientes (Id, Nombre, Email) VALUES
-            (1, 'Ana García', 'ana@example.com'),
-            (2, 'Bruno López', 'bruno@example.com'),
-            (3, 'Carla Pérez', 'carla@example.com');
-        """);
-} // Dispose cierra la conexión de inicialización.
 
 app.Run();

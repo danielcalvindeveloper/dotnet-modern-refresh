@@ -66,18 +66,32 @@ dotnet ef database update
 
 `InitialCreate` ya está incluida: no volver a generarla al ejecutar el laboratorio. Después de cambiar el modelo, una nueva migration se genera con otro nombre y se revisa antes de aplicarla.
 
+## Preparación de la base de datos
+
+La base local `Data/clientes.db` y sus auxiliares no se versionan. Se aplican las migrations existentes (incluida AgregarTelefonoCliente). Necesita clientes para el POST; las reservas se crean desde la API y una base nueva comienza sin ellas.
+
+[Cómo recrear la base de datos y aplicar las migrations](../RECREAR_BASE_DE_DATOS.md). Los [datos iniciales](scripts/datos-iniciales.sql) se ejecutan explícitamente; no se cargan desde `Program.cs`. La herramienta común usa el mismo proveedor SQLite y evita instalar sqlite3 CLI.
+
+```powershell
+# Desde una terminal en la raíz del repositorio:
+cd Lab06c-EFCore-Relations-Migrations
+dotnet restore
+dotnet tool restore
+dotnet ef database update
+dotnet restore ../tools/SqliteScripts/SqliteScripts.csproj
+dotnet run --project ../tools/SqliteScripts -- Data/clientes.db scripts/datos-iniciales.sql
+dotnet run
+```
+
+Los comandos suponen un clon limpio. Repetir el script agrega Ids faltantes y conserva datos existentes; no resetea los experimentos. Para volver exactamente al inicio, seguir el procedimiento de respaldo de la guía común con la API detenida.
+
 ## Cómo ejecutar
 
 Desde la raíz, con el SDK .NET 10:
 
-```powershell
-cd Lab06c-EFCore-Relations-Migrations
-dotnet tool restore
-dotnet ef database update
-dotnet run
-```
+Seguir primero la sección **Preparación de la base de datos** anterior. Después ejecutar `dotnet run` desde `Lab06c-EFCore-Relations-Migrations`.
 
-Development en `http://localhost:5088`. La base queda en `Data/clientes.db` dentro del proyecto y está excluida de Git. El arranque agrega tres clientes si la tabla está vacía; las reservas se crean mediante POST y persisten. Detener con `Ctrl+C`.
+Development en `http://localhost:5088`. La base queda en `Data/clientes.db` dentro del proyecto y está excluida de Git. El script de preparación agrega tres clientes; las reservas se crean mediante POST y persisten. El arranque no aplica migrations ni carga datos. Detener con `Ctrl+C`.
 
 ## Cómo probar GET y POST
 

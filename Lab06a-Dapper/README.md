@@ -40,16 +40,31 @@ La conexión recuerda a JDBC; Dapper cumple un papel cercano a JdbcTemplate al s
 
 Controller → service → repository: abrir conexión → ejecutar SQL parametrizado → mapear resultado → cerrar conexión → devolver JSON. Los resultados de `QueryAsync` quedan materializados antes del cierre; el `return await` permite finalizar la consulta dentro del bloque `using`.
 
+## Preparación de la base de datos
+
+La base local `Data/clientes.db` y sus auxiliares no se versionan. El esquema se crea con [SQL explícito](scripts/esquema.sql), sin EF Core ni migrations. Necesita tres clientes para comparar las consultas.
+
+[Cómo recrear la base de datos y aplicar las migrations](../RECREAR_BASE_DE_DATOS.md). Los [datos iniciales](scripts/datos-iniciales.sql) se ejecutan explícitamente; no se cargan desde `Program.cs`. La herramienta común usa el mismo proveedor SQLite y evita instalar sqlite3 CLI.
+
+```powershell
+# Desde una terminal en la raíz del repositorio:
+cd Lab06a-Dapper
+dotnet restore
+dotnet restore ../tools/SqliteScripts/SqliteScripts.csproj
+dotnet run --project ../tools/SqliteScripts -- Data/clientes.db scripts/esquema.sql
+dotnet run --project ../tools/SqliteScripts -- Data/clientes.db scripts/datos-iniciales.sql
+dotnet run
+```
+
+Los comandos suponen un clon limpio. Repetir el script agrega Ids faltantes y conserva datos existentes; no resetea los experimentos. Para volver exactamente al inicio, seguir el procedimiento de respaldo de la guía común con la API detenida.
+
 ## Cómo ejecutar
 
 Desde la raíz, con el SDK .NET 10:
 
-```powershell
-cd Lab06a-Dapper
-dotnet run
-```
+Seguir primero la sección **Preparación de la base de datos** anterior. Después ejecutar `dotnet run` desde `Lab06a-Dapper`.
 
-Escucha en `http://localhost:5086`. Al arrancar crea la tabla y agrega tres clientes; repetir el arranque no duplica ni sobrescribe los registros existentes. Detener con `Ctrl+C`.
+Escucha en `http://localhost:5086`. La preparación explícita crea la tabla y agrega tres clientes; el arranque de la API no inicializa la base. Los scripts conservan registros existentes. Detener con `Ctrl+C`.
 
 ## Cómo probar ambos endpoints
 
@@ -79,7 +94,7 @@ Un Id inexistente devuelve 404. OpenAPI permanece en `/openapi/v1.json` durante 
 - `Repositories/IClienteRepository.cs` y `ClienteRepository.cs`: contrato, conexión, SQL, parámetros y métodos async.
 - `Services/IClienteService.cs` y `ClienteService.cs`: contrato y delegación al repository.
 - `Controllers/ClientesController.cs`: colección, cliente por Id y respuesta 404.
-- `Program.cs`: DI scoped, ubicación de la base, inicialización SQL y middleware.
+- `Program.cs`: DI scoped, ubicación de la base y middleware; SQL de preparación en `scripts/`.
 - `Lab06a-Dapper.csproj`: paquetes Dapper y proveedor SQLite, además de OpenAPI.
 - `docs/datos.mmd`: copia del diagrama para el IDE.
 

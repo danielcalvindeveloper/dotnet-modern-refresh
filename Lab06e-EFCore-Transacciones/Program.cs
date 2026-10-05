@@ -1,5 +1,4 @@
 using Lab06e.Data;
-using Lab06e.Models;
 using Lab06e.Services;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -40,17 +39,5 @@ app.Use(async (HttpContext context, Func<Task> next) =>
 
 app.UseExceptionHandler();
 app.MapControllers();
-
-// Esquema versionado como en Lab06c/Lab06d; base propia, inicialmente sin reservas.
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await db.Database.MigrateAsync();
-    if (!await db.Clientes.AnyAsync())
-    {
-        db.Clientes.Add(new Cliente { Id = 1, Nombre = "Ana García", Email = "ana@example.com" });
-        await db.SaveChangesAsync();
-    }
-}
 
 app.Run();

@@ -4,12 +4,28 @@
 
 Entender la **atomicidad**: las modificaciones de una unidad de trabajo se confirman todas o ninguna. Conservamos Controller → Service → AppDbContext → EF Core → SQLite, async/await y el cliente simple de Lab06c/Lab06d. Una reserva tiene movimientos (`MovimientoReserva`: Id, ReservaId, Descripcion), relacionados por FK y navegaciones.
 
+Seguir primero la sección **Preparación de la base de datos** de abajo. Después ejecutar `dotnet run` desde `Lab06e-EFCore-Transacciones`.
+
+Puerto **5092**. La preparación explícita aplica la migration incluida y agrega un cliente con Id 1; la API no prepara la base al arrancar. La base propia `Data/reservas.db` está excluida de Git y comienza sin reservas. No modifica las bases de los otros laboratorios. Los POST no requieren body: usan ese cliente y datos fijos para concentrarnos en las transacciones.
+
+## Preparación de la base de datos
+
+La base local `Data/reservas.db` y sus auxiliares no se versionan. Se aplica la migration incluida. Necesita ClienteId=1 para los POST. No se precargan reservas ni movimientos: los crean los experimentos; en una base nueva el GET inicial devuelve [].
+
+[Cómo recrear la base de datos y aplicar las migrations](../RECREAR_BASE_DE_DATOS.md). Los [datos iniciales](scripts/datos-iniciales.sql) se ejecutan explícitamente; no se cargan desde `Program.cs`. La herramienta común usa el mismo proveedor SQLite y evita instalar sqlite3 CLI.
+
 ```powershell
+# Desde una terminal en la raíz del repositorio:
 cd Lab06e-EFCore-Transacciones
+dotnet restore
+dotnet tool restore
+dotnet ef database update
+dotnet restore ../tools/SqliteScripts/SqliteScripts.csproj
+dotnet run --project ../tools/SqliteScripts -- Data/reservas.db scripts/datos-iniciales.sql
 dotnet run
 ```
 
-Puerto **5092**. El arranque aplica la migration inicial incluida y agrega un cliente con Id 1. La base propia `Data/reservas.db` está excluida de Git y comienza sin reservas. No modifica las bases de los otros laboratorios. Los POST no requieren body: usan ese cliente y datos fijos para concentrarnos en las transacciones.
+Los comandos suponen un clon limpio. Repetir el script agrega Ids faltantes y conserva datos existentes; no resetea los experimentos. Para volver exactamente al inicio, seguir el procedimiento de respaldo de la guía común con la API detenida.
 
 ## Un SaveChanges: atomicidad implícita
 

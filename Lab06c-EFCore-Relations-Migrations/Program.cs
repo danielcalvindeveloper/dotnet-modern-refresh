@@ -1,5 +1,4 @@
 using Lab06c.Data;
-using Lab06c.Models;
 using Lab06c.Services;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -35,19 +34,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
-
-// El esquema se prepara con dotnet ef database update; aquí solo agregamos datos.
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    if (!await db.Clientes.AnyAsync())
-    {
-        db.Clientes.AddRange(
-            new Cliente { Id = 1, Nombre = "Ana García", Email = "ana@example.com" },
-            new Cliente { Id = 2, Nombre = "Bruno López", Email = "bruno@example.com" },
-            new Cliente { Id = 3, Nombre = "Carla Pérez", Email = "carla@example.com" });
-        await db.SaveChangesAsync();
-    }
-}
 
 app.Run();
