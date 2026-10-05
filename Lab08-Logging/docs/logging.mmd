@@ -1,0 +1,8 @@
+flowchart LR
+    HTTP[HTTP Request] --> Controller
+    Controller --> Service
+    Controller --> Logger["ILogger&lt;T&gt;"]
+    Service --> Logger
+    Logger --> Providers[Logging Providers]
+    Providers --> ConsoleDebug[Console / Debug]
+    Config[appsettings.json] -. niveles y filtros .-> Logger
