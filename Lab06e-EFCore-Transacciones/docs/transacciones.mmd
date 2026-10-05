@@ -1,0 +1,6 @@
+flowchart TD
+    A[BeginTransaction] --> B[SaveChanges 1]
+    B --> C[SaveChanges 2]
+    C --> D{Resultado}
+    D -->|OK| E[Commit]
+    D -->|Error| F[Rollback]
