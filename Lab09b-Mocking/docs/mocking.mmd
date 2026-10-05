@@ -1,0 +1,5 @@
+flowchart TD
+    Test[UNIT TEST] --> Service[ReservaService]
+    Service --> Contrato[IReservaRepository]
+    Doble[Mock / Stub] -.->|implementa| Contrato
+    Excluidos["No participan: HTTP, base de datos ni servicios externos"]

@@ -1,0 +1,11 @@
+flowchart LR
+    subgraph Produccion[Producción conceptual]
+        ServicioReal[ReservaService] --> ContratoReal[IReservaRepository]
+        ContratoReal --> RepoReal[Repository real]
+        RepoReal --> BD[Base de datos]
+    end
+    subgraph UnitTest[Unit test]
+        ServicioTest[ReservaService] --> ContratoTest[IReservaRepository]
+        Doble[Stub / Mock] -.->|implementa| ContratoTest
+        SinBD[La base de datos no participa]
+    end
