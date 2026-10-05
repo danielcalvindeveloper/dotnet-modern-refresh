@@ -1,0 +1,7 @@
+flowchart TD
+    Request --> ExceptionHandler
+    ExceptionHandler --> Controller
+    Controller --> Service
+    Service -->|Exception| ExceptionHandler
+    ExceptionHandler --> ProblemDetails
+    ProblemDetails --> Response500[HTTP 500]
